@@ -1,0 +1,30 @@
+name: QA
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install YAML dependency
+        run: python -m pip install pyyaml
+      - name: Read QA configuration
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import yaml
+
+          config = yaml.safe_load(Path('qa.yaml').read_text(encoding='utf-8'))
+          missing = [path for path in config['required_paths'] if not Path(path).exists()]
+          if missing:
+              raise SystemExit(f'Missing required paths: {missing}')
+          print('Required structure OK')
+          PY

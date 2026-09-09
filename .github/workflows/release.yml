@@ -1,0 +1,26 @@
+name: Release Preparation
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup release directories
+        run: mkdir -p releases exports temp
+      - name: Prepare future release package
+        run: |
+          printf 'Genesis release preparation\n' > releases/README.txt
+          tar -czf genesis-release-${GITHUB_SHA}.tar.gz \
+            --exclude=.git --exclude=.venv .
+      - name: Upload release preparation
+        uses: actions/upload-artifact@v4
+        with:
+          name: genesis-release-preparation
+          path: genesis-release-*.tar.gz

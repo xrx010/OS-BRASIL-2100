@@ -19,3 +19,9 @@ Construir uma infraestrutura aberta capaz de gerar livros, atlas, planos públic
 
 ## Filosofia
 > "Conhecimento organizado é infraestrutura nacional."
+
+## Genesis Factory
+
+A Genesis Factory automatiza validacao, QA, builds e preparacao de releases por
+meio dos workflows do GitHub Actions. A plataforma conecta Kernel, Builder, Core,
+modulos e dashboards em uma estrutura executavel.

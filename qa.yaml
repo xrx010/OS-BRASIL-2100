@@ -1,0 +1,12 @@
+name: Genesis QA
+required_paths:
+  - AGENTS.md
+  - README.md
+  - requirements.txt
+  - kernel
+  - builder
+  - core
+  - modules
+  - projects
+  - web
+  - tests

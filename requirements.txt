@@ -3,3 +3,6 @@ pyyaml
 python-docx
 reportlab
 pillow
+streamlit
+folium
+streamlit-folium

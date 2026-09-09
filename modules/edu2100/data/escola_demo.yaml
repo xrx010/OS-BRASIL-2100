@@ -1,0 +1,10 @@
+escola:
+  nome: Escola Genesis 2100
+  municipio: Brasília
+  metas_okr:
+    - objetivo: Elevar a frequência média dos estudantes
+      meta: Atingir 90% de frequência média
+      status: Em acompanhamento
+    - objetivo: Ampliar a permanência escolar
+      meta: Reduzir a evasão para menos de 5%
+      status: Planejado
