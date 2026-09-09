@@ -8,9 +8,14 @@ class Sidebar(ctk.CTkFrame):
 
     ITEMS = ["Dashboard", "Projetos", "Builder", "Módulos", "Configurações"]
 
+<<<<<<< HEAD
     def __init__(self, master, on_select=None, **kwargs):
         super().__init__(master, width=220, corner_radius=0, fg_color=COLORS["sidebar"], **kwargs)
         self.on_select = on_select
+=======
+    def __init__(self, master, **kwargs):
+        super().__init__(master, width=220, corner_radius=0, fg_color=COLORS["sidebar"], **kwargs)
+>>>>>>> 68d80f4d5029cdd2a36d5a9e66ca8b43c97531b6
         self.grid_propagate(False)
         self.grid_columnconfigure(0, weight=1)
 
@@ -46,6 +51,10 @@ class Sidebar(ctk.CTkFrame):
         for button in self.buttons:
             button.configure(
                 fg_color=COLORS["accent"] if button.cget("text") == selected else "transparent"
+<<<<<<< HEAD
             )
         if self.on_select:
             self.on_select(selected)
+=======
+            )
+>>>>>>> 68d80f4d5029cdd2a36d5a9e66ca8b43c97531b6
