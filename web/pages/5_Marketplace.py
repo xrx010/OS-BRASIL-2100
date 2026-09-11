@@ -27,11 +27,11 @@ for module in modules:
     with st.container(border=True):
         columns = st.columns((3, 1, 1, 1))
         columns[0].markdown(f"### {module['name']}")
-        columns[0].write(module["description"])
+        columns[0].write(f"ID: {module.get('id', module['name'])}")
         columns[1].metric("Versão", module["version"])
         columns[2].metric("Categoria", module.get("category", "Geral"))
         columns[3].metric("Status", module["status"])
-        action = "remove" if module["status"] == "installed" else "install"
+        action = "remove" if module.get("installed") is True else "install"
         label = "Remover módulo" if action == "remove" else "Instalar módulo"
         if st.button(label, key=f"{action}-{module['name']}"):
             st.session_state["marketplace_pending"] = api.package_preview(module["name"], action)
