@@ -43,6 +43,10 @@ elif section == "Pacotes":
     st.header("Pacotes Genesis")
     st.write("Abra a página Pacotes no menu de páginas do Streamlit.")
     st.page_link("pages/4_Pacotes.py", label="Abrir Pacotes")
+elif section == "Studio":
+    st.header("Genesis Studio")
+    st.write("Crie módulos visuais, gere manifestos e registre novos pacotes no catálogo Genesis.")
+    st.page_link("pages/6_Studio.py", label="Abrir Studio")
 elif section == "Marketplace":
     st.header("Genesis Marketplace")
     st.write("Explore e gerencie os módulos oficiais do catálogo Genesis.")

@@ -5,6 +5,8 @@ from gpm.manager import PackageManager
 from kernel.engine import GenesisKernel
 from modules.atlas import AtlasEngine
 from modules.edu2100 import EduEngine
+from studio.generator import ModuleGenerator
+from studio.wizard import ModuleWizard
 
 from .metrics import count_chapters, count_modules, read_builds
 from .roadmap import list_roadmap
@@ -59,3 +61,20 @@ class GenesisServices:
 
     def package_info(self, name):
         return self.packages.info(name)
+
+    def create_module(self, name, category, description="", author="", version="0.1.0"):
+        wizard = ModuleWizard(
+            name=name,
+            category=category,
+            description=description,
+            author=author,
+            root=self.root,
+            version=version,
+        )
+        preview = wizard.preview()
+        if not preview.get("valid"):
+            raise ValueError("; ".join(preview.get("errors", ["Dados inválidos"])))
+        generator = ModuleGenerator(root=self.root)
+        result = generator.generate_from_wizard(wizard)
+        self.packages.registry.read()
+        return result

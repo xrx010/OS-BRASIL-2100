@@ -74,5 +74,11 @@ class GenesisAPI:
     def package_preview(self, name, action):
         return self.services.packages.preview(name, action)
 
+    def create_module(self, name, category, description="", author="", version="0.1.0"):
+        result = self.services.create_module(name, category, description, author, version)
+        self.cache.clear()
+        self.events.record("Módulo criado pelo Studio", name)
+        return result
+
     def get_events(self, limit=10):
         return self.events.recent(limit)

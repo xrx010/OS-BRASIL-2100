@@ -1,36 +1,51 @@
 modules:
-  - id: atlas
-    name: atlas
-    version: 0.1.0
-    category: Conhecimento
-    installed: true
-  - id: edu2100
-    name: edu2100
-    version: 0.1.0
-    category: Educação
-    installed: true
-  - id: builder
-    name: builder
-    version: 0.1.0
-    category: Infraestrutura
-    installed: false
-  - id: kernel
-    name: kernel
-    version: 0.1.0
-    category: Infraestrutura
-    installed: false
-  - id: sus2100
-    name: sus2100
-    version: 0.1.0
-    category: Saúde
-    installed: false
-  - id: infra2100
-    name: infra2100
-    version: 0.1.0
-    category: Infraestrutura
-    installed: false
-  - id: fiscal2100
-    name: fiscal2100
-    version: 0.1.0
-    category: Finanças
-    installed: false
+- id: atlas
+  name: atlas
+  version: 0.1.0
+  category: Conhecimento
+  installed: true
+  status: installed
+- id: edu2100
+  name: edu2100
+  version: 0.1.0
+  category: Educação
+  installed: true
+  status: installed
+- id: builder
+  name: builder
+  version: 0.1.0
+  category: Infraestrutura
+  installed: false
+  status: available
+- id: kernel
+  name: kernel
+  version: 0.1.0
+  category: Infraestrutura
+  installed: false
+  status: available
+- id: sus2100
+  name: sus2100
+  version: 0.1.0
+  category: Saúde
+  installed: false
+  status: available
+- id: infra2100
+  name: infra2100
+  version: 0.1.0
+  category: Infraestrutura
+  installed: false
+  status: available
+- id: fiscal2100
+  name: fiscal2100
+  version: 0.1.0
+  category: Finanças
+  installed: false
+  status: available
+- id: indicadores_urbanos
+  name: Indicadores Urbanos
+  version: 0.1.0
+  category: Urbanismo
+  installed: false
+  status: available
+  description: Módulo de indicadores de mobilidade e infraestrutura.
+  author: Ana Souza
