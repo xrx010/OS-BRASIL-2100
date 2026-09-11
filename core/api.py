@@ -1,7 +1,6 @@
 from .cache import MemoryCache
 from .events import EventLog
 from .services import GenesisServices
-from kernel.registry import list_modules
 
 
 class GenesisAPI:
@@ -26,7 +25,7 @@ class GenesisAPI:
     def get_modules(self):
         modules = self.cache.get("modules")
         if modules is None:
-            modules = list_modules(self.services.root / "modules")
+            modules = self.services.packages_list()
             self.cache.set("modules", modules)
         return modules
 
@@ -55,6 +54,25 @@ class GenesisAPI:
 
     def get_edu2100(self):
         return self.services.edu2100()
+
+    def get_packages(self):
+        return self.services.packages_list()
+
+    def install_package(self, name):
+        result = self.services.package_install(name)
+        self.events.record("Pacote instalado", name)
+        return result
+
+    def remove_package(self, name):
+        result = self.services.package_remove(name)
+        self.events.record("Pacote removido", name)
+        return result
+
+    def package_info(self, name):
+        return self.services.package_info(name)
+
+    def package_preview(self, name, action):
+        return self.services.packages.preview(name, action)
 
     def get_events(self, limit=10):
         return self.events.recent(limit)

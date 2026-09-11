@@ -7,7 +7,7 @@ def render_sidebar():
         st.caption("PLATFORM")
         return st.radio(
             "Navegação",
-            ["Dashboard", "Builder", "Atlas", "Edu2100", "Projetos", "Módulos", "Configurações"],
+            ["Dashboard", "Builder", "Atlas", "Edu2100", "Marketplace", "Pacotes", "Projetos", "Módulos", "Configurações"],
             label_visibility="collapsed",
         )
 

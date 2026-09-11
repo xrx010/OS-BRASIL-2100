@@ -39,6 +39,14 @@ elif section == "Edu2100":
     st.header("Edu2100")
     st.write("Abra a página Edu2100 no menu de páginas do Streamlit para ver os indicadores.")
     st.page_link("pages/3_Edu2100.py", label="Abrir Edu2100")
+elif section == "Pacotes":
+    st.header("Pacotes Genesis")
+    st.write("Abra a página Pacotes no menu de páginas do Streamlit.")
+    st.page_link("pages/4_Pacotes.py", label="Abrir Pacotes")
+elif section == "Marketplace":
+    st.header("Genesis Marketplace")
+    st.write("Explore e gerencie os módulos oficiais do catálogo Genesis.")
+    st.page_link("pages/5_Marketplace.py", label="Abrir Marketplace")
 elif section == "Módulos":
     st.header("Módulos")
     st.write(f"{len(api.get_modules())} módulo(s) encontrado(s).")

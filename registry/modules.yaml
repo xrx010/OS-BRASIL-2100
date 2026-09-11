@@ -1,0 +1,19 @@
+modules:
+  - name: atlas
+    version: 0.1.0
+    description: Atlas territorial e camadas geoespaciais do Brasil 2100.
+    author: Genesis Platform
+    category: Conhecimento
+    status: installed
+    path: modules/atlas
+    entrypoint: modules.atlas:AtlasEngine
+    signature: sha256:93980b6d5d3500353fb6dac107e13f2b52ce8b022c3c0b583afd29335207a548
+  - name: edu2100
+    version: 0.1.0
+    description: Indicadores e ferramentas para educação no horizonte 2100.
+    author: Genesis Platform
+    category: Educação
+    status: installed
+    path: modules/edu2100
+    entrypoint: modules.edu2100:EduEngine
+    signature: sha256:9e759960f2ef24c7bee8bb916f0430d75ed48287c1ef4cdccbbce566e1c22124

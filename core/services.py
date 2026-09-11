@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from builder.builder import GenesisBuilder
+from gpm.manager import PackageManager
 from kernel.engine import GenesisKernel
 from modules.atlas import AtlasEngine
 from modules.edu2100 import EduEngine
@@ -18,6 +19,7 @@ class GenesisServices:
         self.project_path = Path(project_path)
         self.kernel = GenesisKernel()
         self.builder = GenesisBuilder()
+        self.packages = PackageManager(self.root)
 
     def load_project(self):
         return self.kernel.load_project(self.project_path)
@@ -45,3 +47,15 @@ class GenesisServices:
 
     def edu2100(self):
         return EduEngine()
+
+    def packages_list(self):
+        return self.packages.list()
+
+    def package_install(self, name):
+        return self.packages.install(name)
+
+    def package_remove(self, name):
+        return self.packages.remove(name)
+
+    def package_info(self, name):
+        return self.packages.info(name)
