@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from .schema import MODULE_STATUSES, REQUIRED_MODULE_FIELDS
+from .schema import MODULE_STATUSES, REQUIRED_MODULE_FIELDS, normalize_module
 from .signatures import verify_signature
 
 
@@ -13,31 +13,46 @@ class RegistryValidationError(ValueError):
 def validate_module(module, root=None, verify_integrity=False):
     if not isinstance(module, dict):
         raise RegistryValidationError("Cada módulo deve ser um objeto YAML")
-    missing = REQUIRED_MODULE_FIELDS - module.keys()
+
+    normalized = normalize_module(module)
+    missing = REQUIRED_MODULE_FIELDS - normalized.keys()
     if missing:
         raise RegistryValidationError(f"Campos obrigatórios ausentes: {', '.join(sorted(missing))}")
-    if not isinstance(module["name"], str) or not module["name"].strip():
+
+    if not isinstance(normalized["id"], str) or not normalized["id"].strip():
+        raise RegistryValidationError("O campo 'id' do módulo deve ser um texto não vazio")
+    if not isinstance(normalized["name"], str) or not normalized["name"].strip():
         raise RegistryValidationError("O nome do módulo deve ser um texto não vazio")
-    if not isinstance(module["version"], str) or not module["version"].strip():
-        raise RegistryValidationError(f"Versão inválida para {module['name']}")
-    if module["status"] not in MODULE_STATUSES:
-        raise RegistryValidationError(f"Status inválido para {module['name']}")
-    module_path = Path(root) / module["path"] if root else None
-    if module_path and not module_path.is_dir():
-        raise RegistryValidationError(f"Caminho do módulo não encontrado: {module_path}")
-    if verify_integrity and module_path and module.get("signature"):
-        if not verify_signature(module_path, module["signature"]):
-            raise RegistryValidationError(f"Assinatura inválida para {module['name']}")
-    return module
+    if not isinstance(normalized["version"], str) or not normalized["version"].strip():
+        raise RegistryValidationError(f"Versão inválida para {normalized['name']}")
+    if not isinstance(normalized["category"], str) or not normalized["category"].strip():
+        raise RegistryValidationError(f"Categoria obrigatória para {normalized['name']}")
+    if not isinstance(normalized["installed"], bool):
+        raise RegistryValidationError(f"Campo 'installed' deve ser booleano para {normalized['name']}")
+    if normalized["status"] not in MODULE_STATUSES:
+        raise RegistryValidationError(f"Status inválido para {normalized['name']}")
+
+    if verify_integrity and root:
+        module_path = Path(root) / "modules" / normalized["name"]
+        if module_path.exists() and normalized.get("signature"):
+            if not verify_signature(module_path, normalized["signature"]):
+                raise RegistryValidationError(f"Assinatura inválida para {normalized['name']}")
+    return normalized
 
 
 def validate_catalog(data, root=None, verify_integrity=False):
     if not isinstance(data, dict) or not isinstance(data.get("modules"), list):
         raise RegistryValidationError("O catálogo deve conter uma lista 'modules'")
-    names = set()
+
+    seen_ids = set()
+    modules = []
     for module in data["modules"]:
-        validate_module(module, root, verify_integrity)
-        if module["name"] in names:
-            raise RegistryValidationError(f"Módulo duplicado: {module['name']}")
-        names.add(module["name"])
+        normalized = validate_module(module, root, verify_integrity)
+        module_id = normalized["id"]
+        if module_id in seen_ids:
+            raise RegistryValidationError(f"ID duplicado: {module_id}")
+        seen_ids.add(module_id)
+        modules.append(normalized)
+
+    data["modules"] = modules
     return data

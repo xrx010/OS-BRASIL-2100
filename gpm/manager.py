@@ -42,7 +42,14 @@ class PackageManager:
 
     @staticmethod
     def _find(data, name):
-        module = next((item for item in data["modules"] if item["name"] == name), None)
+        module = next(
+            (
+                item
+                for item in data["modules"]
+                if item["name"] == name or item["id"] == name
+            ),
+            None,
+        )
         if module is None:
             raise KeyError(f"Módulo não registrado: {name}")
         return module
@@ -50,6 +57,6 @@ class PackageManager:
     @staticmethod
     def _replace(data, updated):
         for index, module in enumerate(data["modules"]):
-            if module["name"] == updated["name"]:
+            if module["name"] == updated["name"] or module["id"] == updated["id"]:
                 data["modules"][index] = updated
                 return

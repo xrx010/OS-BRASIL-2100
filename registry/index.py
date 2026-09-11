@@ -4,6 +4,7 @@ from pathlib import Path
 
 import yaml
 
+from .schema import normalize_module
 from .validator import validate_catalog
 
 
@@ -24,12 +25,17 @@ class ModuleRegistry:
         else:
             data = yaml.safe_load(self.path.read_text(encoding="utf-8")) or {}
         data.setdefault("modules", [])
-        return validate_catalog(data, self.root)
+        normalized = {"modules": [normalize_module(item) for item in data["modules"]]}
+        return validate_catalog(normalized, self.root)
 
     def write(self, data):
-        validate_catalog(data, self.root)
+        normalized = {"modules": [normalize_module(item) for item in data.get("modules", [])]}
+        validate_catalog(normalized, self.root)
         self.path.parent.mkdir(parents=True, exist_ok=True)
-        self.path.write_text(yaml.safe_dump(data, allow_unicode=True, sort_keys=False), encoding="utf-8")
+        self.path.write_text(yaml.safe_dump(normalized, allow_unicode=True, sort_keys=False), encoding="utf-8")
 
     def find(self, name):
-        return next((item for item in self.read()["modules"] if item["name"] == name), None)
+        return next(
+            (item for item in self.read()["modules"] if item["name"] == name or item["id"] == name),
+            None,
+        )

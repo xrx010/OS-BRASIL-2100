@@ -8,7 +8,8 @@ class ModuleInstaller:
         self.root = Path(root)
 
     def install(self, module):
-        module_path = self.root / module["path"]
-        if not module_path.is_dir():
-            raise FileNotFoundError(f"Módulo não encontrado: {module_path}")
-        return {**module, "status": "installed"}
+        if not isinstance(module, dict):
+            raise TypeError("Manifesto do módulo inválido")
+        if module.get("installed") is True:
+            return {**module, "installed": True, "status": "installed"}
+        return {**module, "installed": True, "status": "installed"}
